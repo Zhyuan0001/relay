@@ -97,6 +97,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || \
-            gh release create "$GITHUB_REF_NAME" --title "接力 Relay $GITHUB_REF_NAME" --generate-notes
-          gh release upload "$GITHUB_REF_NAME" release-assets/* --clobber
+          REPO="$GITHUB_REPOSITORY"
+          gh release view "$GITHUB_REF_NAME" -R "$REPO" >/dev/null 2>&1 || \
+            gh release create "$GITHUB_REF_NAME" -R "$REPO" --title "接力 Relay $GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" release-assets/* -R "$REPO" --clobber
