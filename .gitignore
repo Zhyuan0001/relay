@@ -9,3 +9,5 @@ code/desktop/server.mjs
 *.db-shm
 .DS_Store
 *.log
+
+release/
