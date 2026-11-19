@@ -1,0 +1,436 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=1240"><title>味谱 TasteProfile · 产品概念</title><style>html,body{margin:0;padding:0;background:#f6f4ef;}</style></head><body><div class="taste-root">
+<style>
+  .taste-root{
+    --paper:#f6f4ef; --card:#ffffff; --ink:#191918; --muted:#6f6a60;
+    --line:#e7e1d5; --accent:#c05f2f; --accent-soft:#f7e8de;
+    --teal:#2f6f68; --teal-soft:#e4efec; --amber:#a9771d; --amber-soft:#f5ecd9;
+    --danger:#a63c38; --danger-soft:#f7e3e1;
+    background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans CJK SC","Source Han Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    padding:28px 30px 34px; border-radius:14px; line-height:1.5;
+    font-size:14px; max-width:1180px; margin:0 auto;
+  }
+  .taste-root *{box-sizing:border-box; margin:0; padding:0;}
+  .hero{padding:6px 4px 22px; border-bottom:2px solid var(--ink);}
+  .hero-kicker{font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px;}
+  .hero h1{font-size:40px; letter-spacing:-.02em; font-weight:800;}
+  .hero h1 span{font-size:15px; font-weight:600; color:var(--accent); letter-spacing:.04em; margin-left:10px;}
+  .hero-sub{margin-top:10px; font-size:15px; color:#3c3a35; max-width:760px;}
+  .hero-tags{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;}
+  .tag{font-size:11px; padding:4px 10px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--muted);}
+  .tag-teal{background:var(--teal-soft); color:var(--teal); border-color:#cfe0dc;}
+  .tag-amber{background:var(--amber-soft); color:var(--amber); border-color:#e8d9b8;}
+
+  .block{padding:24px 4px 6px;}
+  .block-head{display:flex; align-items:baseline; gap:14px; margin-bottom:16px;}
+  .block-head h2{font-size:15px; letter-spacing:.08em; font-weight:700;}
+  .block-head h2::before{content:""; display:inline-block; width:8px; height:8px; background:var(--accent); margin-right:8px; border-radius:2px;}
+  .block-head p{font-size:12px; color:var(--muted);}
+
+  .pipeline{display:grid; grid-template-columns:1fr 26px 1.1fr 26px 1.15fr 26px 1.25fr 26px 1.25fr; align-items:stretch; gap:0;}
+  .stage{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 13px; display:flex; flex-direction:column; gap:8px;}
+  .stage-no{width:20px; height:20px; border-radius:50%; background:var(--ink); color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:700;}
+  .stage h3{font-size:12.5px; font-weight:700;}
+  .stage ul{list-style:none; display:flex; flex-direction:column; gap:5px;}
+  .stage li{font-size:11.5px; color:#44413b; display:flex; justify-content:space-between; align-items:center; gap:6px;}
+  .stage .desc{font-size:11px; color:var(--muted);}
+  .arrow{display:flex; align-items:center; justify-content:center; color:#b9b2a4; font-size:16px;}
+  .mini-ok,.mini-fixture,.mini-plan{font-size:9.5px; padding:1px 6px; border-radius:999px; white-space:nowrap;}
+  .mini-ok{background:var(--teal-soft); color:var(--teal);}
+  .mini-fixture{background:var(--amber-soft); color:var(--amber);}
+  .mini-plan{background:#efece5; color:#8a8375;}
+  .crosscut{margin-top:12px; background:var(--ink); color:#f1ede4; border-radius:9px; padding:10px 16px; font-size:11.5px; letter-spacing:.03em; display:flex; gap:18px; flex-wrap:wrap;}
+
+  .story{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+  .step{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 14px; position:relative;}
+  .step b{font-size:12.5px; display:block; margin-bottom:5px;}
+  .step p{font-size:11.5px; color:var(--muted);}
+  .step em{position:absolute; right:12px; top:10px; font-style:normal; font-size:10px; color:#c3bcae; font-weight:700;}
+
+  .screens{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .screen{background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; display:flex; flex-direction:column;}
+  .chrome{display:flex; align-items:center; gap:5px; padding:7px 10px; border-bottom:1px solid var(--line); background:#fbfaf7;}
+  .chrome i{width:7px; height:7px; border-radius:50%; background:#ddd6c8; display:block;}
+  .chrome span{margin-left:8px; font-size:10px; color:#9a9385; letter-spacing:.04em;}
+  .app{display:flex; min-height:330px; font-size:11px;}
+  .side{width:92px; border-right:1px solid var(--line); padding:11px 9px; display:flex; flex-direction:column; background:#fcfbf8;}
+  .logo{font-weight:800; font-size:13px; margin-bottom:14px;}
+  .logo span{color:var(--accent);}
+  .side nav{display:flex; flex-direction:column; gap:2px;}
+  .side a{font-size:10.5px; color:var(--muted); padding:5px 7px; border-radius:6px; text-decoration:none;}
+  .side a.on{background:var(--ink); color:#fff;}
+  .side-foot{margin-top:auto; font-size:9.5px; color:#a9a294; padding:6px 4px 0; border-top:1px dashed var(--line);}
+  .main{flex:1; padding:12px 14px; display:flex; flex-direction:column; gap:10px; min-width:0;}
+  .mhead{display:flex; align-items:baseline; justify-content:space-between;}
+  .mhead h4{font-size:14px;}
+  .mdate{font-size:9.5px; color:var(--muted); border:1px solid var(--line); padding:2px 7px; border-radius:999px;}
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:7px;}
+  .kpi{background:#faf8f3; border:1px solid var(--line); border-radius:8px; padding:7px 8px;}
+  .kpi b{display:block; font-size:15px; letter-spacing:-.02em;}
+  .kpi span{font-size:9.5px; color:var(--muted);}
+  .mrow{display:grid; grid-template-columns:1fr 1.15fr; gap:8px;}
+  .panel{background:#faf8f3; border:1px solid var(--line); border-radius:8px; padding:8px 9px;}
+  .ptitle{font-size:10px; color:var(--muted); margin-bottom:6px;}
+  .donut-wrap{display:flex; align-items:center; gap:10px;}
+  .donut{width:58px; height:58px; border-radius:50%; background:conic-gradient(var(--teal) 0 62%, var(--accent) 62% 84%, var(--amber) 84% 100%); position:relative; flex:none;}
+  .donut::after{content:""; position:absolute; inset:12px; background:#faf8f3; border-radius:50%;}
+  .legend{display:flex; flex-direction:column; gap:3px; font-size:9.5px; color:#55514a;}
+  .legend i{display:inline-block; width:7px; height:7px; border-radius:2px; margin-right:4px;}
+  .vbars{display:flex; align-items:flex-end; gap:5px; height:62px;}
+  .vbars i{flex:1; background:#d8d1c2; border-radius:2px 2px 0 0; display:block;}
+  .vbars i.hot{background:var(--accent);}
+  .list{padding:0;}
+  .lrow{display:flex; align-items:center; gap:8px; padding:6px 9px; border-bottom:1px solid #efeadf; font-size:10px;}
+  .lrow:last-child{border-bottom:none;}
+  .lrow .grow{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .agent-chip{font-size:8.5px; padding:1px 6px; border-radius:999px; background:var(--teal-soft); color:var(--teal); flex:none;}
+  .agent-chip.alt{background:var(--amber-soft); color:var(--amber);}
+  .lrow .t{color:#a49d8f; font-size:9px; flex:none;}
+
+  .pane2{display:grid; grid-template-columns:1.35fr 1fr; gap:9px; min-height:280px;}
+  .tl{background:#faf8f3; border:1px solid var(--line); border-radius:8px; padding:9px 10px;}
+  .tl .tt{font-size:10px; color:var(--muted); margin-bottom:7px;}
+  .tline{list-style:none; display:flex; flex-direction:column; gap:0;}
+  .tline li{position:relative; padding:0 0 10px 14px; border-left:1px solid #ddd6c8; margin-left:3px; font-size:9.5px; color:#4a463f;}
+  .tline li::before{content:""; position:absolute; left:-4px; top:2px; width:7px; height:7px; border-radius:50%; background:#c9c2b3;}
+  .tline li.hi::before{background:var(--danger);}
+  .tline li b{font-size:9.5px;}
+  .tline .quote{display:block; margin-top:3px; background:var(--danger-soft); color:#7c2f2b; padding:4px 6px; border-radius:5px; font-size:9px;}
+  .tline .mini{color:#a49d8f; font-size:8.5px;}
+  .evid{background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; display:flex; flex-direction:column; gap:7px;}
+  .evid .cat{font-size:8.5px; color:var(--accent); background:var(--accent-soft); padding:2px 7px; border-radius:999px; align-self:flex-start;}
+  .evid h5{font-size:11.5px; line-height:1.45;}
+  .evid .quote2{font-size:9.5px; color:#6b5a4d; background:#faf6f0; border-left:2px solid var(--accent); padding:5px 7px;}
+  .conf{display:flex; align-items:center; gap:6px; font-size:9px; color:var(--muted);}
+  .conf .bar{flex:1; height:4px; background:#eee8dc; border-radius:2px; overflow:hidden;}
+  .conf .bar i{display:block; height:100%; width:86%; background:var(--teal);}
+  .btns{display:flex; gap:6px; margin-top:auto;}
+  .btn{font-size:9.5px; padding:5px 10px; border-radius:6px; border:1px solid var(--line); background:#fff; color:#4a463f;}
+  .btn.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .btn.ghost{background:#faf8f3;}
+
+  .chips-row{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;}
+  .fchip{font-size:9.5px; padding:3px 9px; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--muted);}
+  .fchip.on{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .review{background:#faf8f3; border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .rrow{display:grid; grid-template-columns:18px 62px 1fr 54px 70px; gap:7px; align-items:center; padding:6px 9px; border-bottom:1px solid #efeadf; font-size:9.5px;}
+  .rrow:last-child{border-bottom:none;}
+  .rrow .box{width:11px; height:11px; border:1px solid #b9b2a3; border-radius:3px; background:#fff;}
+  .rrow .box.on{background:var(--teal); border-color:var(--teal); position:relative;}
+  .rrow .box.on::after{content:"✓"; color:#fff; font-size:8px; position:absolute; left:1.5px; top:-1px;}
+  .rrow .cat2{font-size:8px; padding:2px 6px; border-radius:999px; text-align:center;}
+  .c-cmd{background:var(--teal-soft); color:var(--teal);}
+  .c-style{background:var(--accent-soft); color:var(--accent);}
+  .c-dep{background:var(--amber-soft); color:var(--amber);}
+  .c-ban{background:var(--danger-soft); color:var(--danger);}
+  .rrow .txt{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#3f3b34;}
+  .rrow .ev{color:#a49d8f; font-size:8.5px; text-align:right;}
+  .rrow .cf{display:flex; align-items:center; gap:4px;}
+  .rrow .cf .bar{flex:1; height:3px; background:#eee8dc; border-radius:2px; overflow:hidden;}
+  .rrow .cf .bar i{display:block; height:100%; background:var(--teal);}
+  .rfoot{display:flex; justify-content:space-between; align-items:center; padding:7px 9px; background:#f3efe6; font-size:9px; color:var(--muted);}
+
+  .pane3{display:grid; grid-template-columns:1.05fr 1.2fr 1fr; gap:8px; min-height:280px;}
+  .col{background:#faf8f3; border:1px solid var(--line); border-radius:8px; padding:9px; display:flex; flex-direction:column; gap:6px;}
+  .col .ct{font-size:10px; color:var(--muted); margin-bottom:2px;}
+  .vitem{background:#fff; border:1px solid var(--line); border-radius:6px; padding:6px 8px; font-size:9.5px;}
+  .vitem.on{border-color:var(--teal); box-shadow:0 0 0 1px var(--teal) inset;}
+  .vitem b{display:block; font-size:9.5px;}
+  .vitem span{font-size:8.5px; color:#a49d8f;}
+  .diff{background:#fff; border:1px solid var(--line); border-radius:6px; padding:7px 8px; font-family:ui-monospace,Menlo,monospace; font-size:8.5px; line-height:1.6; overflow:hidden;}
+  .diff .add{background:#e8f2ec; color:#2c5c45; display:block; padding:0 3px;}
+  .diff .del{background:#f8e6e3; color:#8a3a33; display:block; padding:0 3px;}
+  .diff .ctx{color:#8a8375; display:block; padding:0 3px;}
+  .exp{display:flex; flex-direction:column; gap:5px;}
+  .erow{display:flex; align-items:center; gap:6px; font-size:9.5px; color:#3f3b34;}
+  .erow .box{width:11px; height:11px; border:1px solid #b9b2a3; border-radius:3px; background:#fff; flex:none;}
+  .erow .box.on{background:var(--accent); border-color:var(--accent); position:relative;}
+  .erow .box.on::after{content:"✓"; color:#fff; font-size:8px; position:absolute; left:1.5px; top:-1px;}
+  .erow .fmt{margin-left:auto; font-size:8px; color:#a49d8f;}
+  .preview{background:#fff; border:1px solid var(--line); border-radius:6px; padding:6px 7px; font-family:ui-monospace,Menlo,monospace; font-size:8px; color:#6b6558; line-height:1.55; margin-top:2px;}
+  .expbtn{margin-top:auto; background:var(--accent); color:#fff; border:none; border-radius:6px; padding:6px; font-size:9.5px; font-weight:600;}
+
+  figcaption{padding:8px 12px; font-size:11px; color:var(--muted); border-top:1px solid var(--line); background:#fcfbf8;}
+
+  .decisions{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .dec{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 14px;}
+  .dec h4{font-size:12.5px; margin-bottom:6px;}
+  .dec h4 i{font-style:normal; color:var(--accent); margin-right:5px;}
+  .dec p{font-size:11.5px; color:var(--muted);}
+  .bounds{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;}
+  .bound{font-size:10.5px; padding:5px 11px; border-radius:999px; background:var(--danger-soft); color:#8a3a33; border:1px solid #ecd2ce;}
+  .foot{margin-top:22px; padding-top:12px; border-top:1px solid var(--line); font-size:10.5px; color:#a49d8f; display:flex; justify-content:space-between;}
+
+  @media (max-width:900px){
+    .pipeline{grid-template-columns:1fr;}
+    .arrow{transform:rotate(90deg); height:22px;}
+    .screens{grid-template-columns:1fr;}
+    .story{grid-template-columns:1fr 1fr;}
+    .decisions{grid-template-columns:1fr;}
+  }
+</style>
+
+<section class="hero">
+  <div class="hero-kicker">期末项目 · 产品概念 v0.1 · 2026-11-19</div>
+  <h1>味谱 <span>TASTEPROFILE</span></h1>
+  <p class="hero-sub">把你的开发品味与工程惯例，从任何一个 coding agent 的本地会话里提炼出来，做成一份可审阅、可版本化、可以带走的档案。</p>
+  <div class="hero-tags">
+    <span class="tag tag-teal">本地优先</span>
+    <span class="tag tag-amber">每条结论可回放原文</span>
+    <span class="tag">零模型调用</span>
+    <span class="tag">跨 agent 生态</span>
+  </div>
+</section>
+
+<section class="block">
+  <div class="block-head"><h2>01 · 数据流</h2><p>从原始会话到可携带档案的五段管线</p></div>
+  <div class="pipeline">
+    <div class="stage">
+      <div class="stage-no">1</div>
+      <h3>会话来源</h3>
+      <ul>
+        <li>Qoder JSONL <span class="mini-ok">已实证</span></li>
+        <li>Antigravity <span class="mini-ok">摘要</span></li>
+        <li>Claude Code <span class="mini-fixture">夹具</span></li>
+        <li>Codex / DeepSeek Harness <span class="mini-plan">扩展点</span></li>
+      </ul>
+      <div class="desc">日志只读、先脱敏</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage">
+      <div class="stage-no">2</div>
+      <h3>适配器层</h3>
+      <ul>
+        <li>发现与版本识别</li>
+        <li>解析与容错降级</li>
+        <li>统一字段映射</li>
+      </ul>
+      <div class="desc">插件式注册，格式变了只换适配器</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage">
+      <div class="stage-no">3</div>
+      <h3>统一会话模型</h3>
+      <ul>
+        <li>Session / Turn</li>
+        <li>ToolCall / Artifact</li>
+        <li>Correction 纠偏事件</li>
+      </ul>
+      <div class="desc">跨 agent 可比的分析底座</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage">
+      <div class="stage-no">4</div>
+      <h3>分析与提炼</h3>
+      <ul>
+        <li>统计看板</li>
+        <li>惯例候选（规则 + 统计）</li>
+        <li>证据定位与置信度</li>
+      </ul>
+      <div class="desc">命令 / 命名 / 依赖 / 结构 / 测试 / 文档 / 禁用项</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage">
+      <div class="stage-no">5</div>
+      <h3>档案与导出</h3>
+      <ul>
+        <li>条目 + 作用域 + 版本</li>
+        <li>diff / 启停 / 合并</li>
+        <li>AGENTS.md · CLAUDE.md · JSON</li>
+      </ul>
+      <div class="desc">换 agent，不用把习惯重讲一遍</div>
+    </div>
+  </div>
+  <div class="crosscut">
+    <span>本地存储，不上传</span><span>导入前脱敏预览</span><span>结论可回放到原文片段</span><span>不训练、不调用任何模型</span>
+  </div>
+</section>
+
+<section class="block">
+  <div class="block-head"><h2>02 · 闭环故事</h2><p>工具的第一个用户，就是期末项目自己</p></div>
+  <div class="story">
+    <div class="step"><em>01</em><b>导入</b><p>读取 Qoder 真实会话 + 其他 agent 夹具，先看脱敏结果。</p></div>
+    <div class="step"><em>02</em><b>提炼</b><p>规则引擎找出重复命令、纠偏语句、依赖偏好，生成带证据的候选惯例。</p></div>
+    <div class="step"><em>03</em><b>审核</b><p>逐条接受、改写或忽略；档案由此获得可信度，而不是黑盒结论。</p></div>
+    <div class="step"><em>04</em><b>带走</b><p>导出 AGENTS.md / CLAUDE.md / JSON，换一个 agent 直接继承。</p></div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="block-head"><h2>03 · 界面草图</h2><p>四个核心界面：看板、证据、审核、导出（示意数据）</p></div>
+  <div class="screens">
+
+    <figure class="screen">
+      <div class="chrome"><i></i><i></i><i></i><span>味谱 · 概览</span></div>
+      <div class="app">
+        <aside class="side">
+          <div class="logo">味<span>谱</span></div>
+          <nav><a class="on">概览</a><a>会话</a><a>惯例</a><a>档案</a><a>导出</a></nav>
+          <div class="side-foot">本地模式<br>数据不出机器</div>
+        </aside>
+        <main class="main">
+          <div class="mhead"><h4>概览</h4><span class="mdate">近 8 周</span></div>
+          <div class="kpis">
+            <div class="kpi"><b>128</b><span>会话</span></div>
+            <div class="kpi"><b>3,412</b><span>工具调用</span></div>
+            <div class="kpi"><b>96</b><span>纠偏事件</span></div>
+            <div class="kpi"><b>27</b><span>惯例条目</span></div>
+          </div>
+          <div class="mrow">
+            <div class="panel">
+              <div class="ptitle">来源分布</div>
+              <div class="donut-wrap">
+                <div class="donut"></div>
+                <div class="legend">
+                  <span><i style="background:var(--teal)"></i>Qoder 62%</span>
+                  <span><i style="background:var(--accent)"></i>Claude Code 22%</span>
+                  <span><i style="background:var(--amber)"></i>其他 16%</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="ptitle">会话趋势</div>
+              <div class="vbars">
+                <i style="height:34%"></i><i style="height:52%"></i><i style="height:41%"></i><i style="height:68%"></i><i style="height:57%"></i><i class="hot" style="height:88%"></i><i style="height:74%"></i><i style="height:96%"></i>
+              </div>
+            </div>
+          </div>
+          <div class="panel list">
+            <div class="lrow"><span class="agent-chip">Qoder</span><span class="grow">SofteareEnjineer · 期末项目文档</span><span class="t">昨天</span></div>
+            <div class="lrow"><span class="agent-chip alt">Claude</span><span class="grow">campus-expense · 修复打包脚本</span><span class="t">11-16</span></div>
+            <div class="lrow"><span class="agent-chip">Qoder</span><span class="grow">任务03 · 需求获取整理</span><span class="t">11-12</span></div>
+          </div>
+        </main>
+      </div>
+      <figcaption>概览：跨 agent 的使用、纠偏与档案状态一屏可见</figcaption>
+    </figure>
+
+    <figure class="screen">
+      <div class="chrome"><i></i><i></i><i></i><span>味谱 · 会话与证据</span></div>
+      <div class="app">
+        <aside class="side">
+          <div class="logo">味<span>谱</span></div>
+          <nav><a>概览</a><a class="on">会话</a><a>惯例</a><a>档案</a><a>导出</a></nav>
+          <div class="side-foot">本地模式<br>数据不出机器</div>
+        </aside>
+        <main class="main">
+          <div class="mhead"><h4>会话 0247 · 打包脚本修复</h4><span class="mdate">Qoder · 11-16</span></div>
+          <div class="pane2">
+            <div class="tl">
+              <div class="tt">过程时间线（示意）</div>
+              <ul class="tline">
+                <li><b>你</b>：修复 Windows 打包失败的脚本<span class="mini">10:02</span></li>
+                <li><b>AI</b>：读取 3 个文件，定位 asset 名称<span class="mini">10:03</span></li>
+                <li><b>工具</b>：Bash × 2 · Read × 3 · Edit × 1<span class="mini">10:05</span></li>
+                <li class="hi"><b>你纠正</b>：不要改版本号，只改产物名
+                  <span class="quote">“版本号保持 3.1.0，只把 assetName 换成带空格的形式”</span>
+                  <span class="mini">10:07 · 纠偏信号</span>
+                </li>
+                <li><b>AI</b>：按纠正重写，运行打包验证通过<span class="mini">10:12</span></li>
+              </ul>
+            </div>
+            <div class="evid">
+              <span class="cat">候选惯例 · 发布流程</span>
+              <h5>打包产物名保留完整版本号与空格，不改版本号字段</h5>
+              <div class="quote2">证据：会话 0247 的纠正语句「版本号保持 3.1.0…」+ 会话 0182 同类操作</div>
+              <div class="conf">置信度 <span class="bar"><i></i></span> 86%</div>
+              <div class="btns"><button class="btn primary">采纳</button><button class="btn">改写</button><button class="btn ghost">忽略</button></div>
+            </div>
+          </div>
+        </main>
+      </div>
+      <figcaption>会话与证据：每条候选惯例都能跳回原始纠偏片段</figcaption>
+    </figure>
+
+    <figure class="screen">
+      <div class="chrome"><i></i><i></i><i></i><span>味谱 · 惯例审核</span></div>
+      <div class="app">
+        <aside class="side">
+          <div class="logo">味<span>谱</span></div>
+          <nav><a>概览</a><a>会话</a><a class="on">惯例</a><a>档案</a><a>导出</a></nav>
+          <div class="side-foot">本地模式<br>数据不出机器</div>
+        </aside>
+        <main class="main">
+          <div class="mhead"><h4>惯例审核</h4><span class="mdate">待审 12 条</span></div>
+          <div class="chips-row">
+            <span class="fchip on">全部</span><span class="fchip">命令与包管理</span><span class="fchip">命名与风格</span><span class="fchip">依赖选择</span><span class="fchip">测试与文档</span><span class="fchip">禁用项</span>
+          </div>
+          <div class="review">
+            <div class="rrow"><span class="box on"></span><span class="cat2 c-cmd">命令</span><span class="txt">优先使用 pnpm，不生成 package-lock.json</span><span class="ev">证据 7</span><span class="cf"><span class="bar"><i style="width:92%"></i></span></span></div>
+            <div class="rrow"><span class="box on"></span><span class="cat2 c-style">风格</span><span class="txt">中文本地化文案，代码标识符保持英文</span><span class="ev">证据 5</span><span class="cf"><span class="bar"><i style="width:78%"></i></span></span></div>
+            <div class="rrow"><span class="box"></span><span class="cat2 c-dep">依赖</span><span class="txt">桌面端优先 Electron，不用系统 WebView</span><span class="ev">证据 4</span><span class="cf"><span class="bar"><i style="width:74%"></i></span></span></div>
+            <div class="rrow"><span class="box"></span><span class="cat2 c-ban">禁用</span><span class="txt">不在文档与日志里写入真实姓名与学号</span><span class="ev">证据 3</span><span class="cf"><span class="bar"><i style="width:69%"></i></span></span></div>
+          </div>
+          <div class="rfoot"><span>已选 2 条</span><span>批量采纳 · 合并为一条 · 忽略</span></div>
+        </main>
+      </div>
+      <figcaption>惯例审核：按类别批量处理，置信度与证据数透明</figcaption>
+    </figure>
+
+    <figure class="screen">
+      <div class="chrome"><i></i><i></i><i></i><span>味谱 · 档案与导出</span></div>
+      <div class="app">
+        <aside class="side">
+          <div class="logo">味<span>谱</span></div>
+          <nav><a>概览</a><a>会话</a><a>惯例</a><a>档案</a><a class="on">导出</a></nav>
+          <div class="side-foot">本地模式<br>数据不出机器</div>
+        </aside>
+        <main class="main">
+          <div class="mhead"><h4>味谱档案 · v3</h4><span class="mdate">作用域：本项目</span></div>
+          <div class="pane3">
+            <div class="col">
+              <div class="ct">版本</div>
+              <div class="vitem on"><b>v3 · 当前</b><span>今天 · +4 −1</span></div>
+              <div class="vitem"><b>v2</b><span>11-12 · +6 −2</span></div>
+              <div class="vitem"><b>v1</b><span>11-02 · 初始 18 条</span></div>
+            </div>
+            <div class="col">
+              <div class="ct">与 v2 的差异</div>
+              <div class="diff">
+                <span class="ctx">## 命令与工具</span>
+                <span class="del">- 使用 npm run build 打包</span>
+                <span class="add">+ 使用 pnpm run build 打包</span>
+                <span class="ctx">## 发布</span>
+                <span class="add">+ 产物名保留完整版本号与空格</span>
+                <span class="add">+ 打包前先跑全量测试</span>
+              </div>
+            </div>
+            <div class="col">
+              <div class="ct">导出目标</div>
+              <div class="exp">
+                <div class="erow"><span class="box on"></span>AGENTS.md<span class="fmt">通用</span></div>
+                <div class="erow"><span class="box on"></span>CLAUDE.md<span class="fmt">Claude Code</span></div>
+                <div class="erow"><span class="box on"></span>Qoder 指令<span class="fmt">本地</span></div>
+                <div class="erow"><span class="box"></span>JSON<span class="fmt">归档</span></div>
+              </div>
+              <div class="preview">## 命令与工具<br>- 优先 pnpm；不生成 lockfile<br>## 发布<br>- 产物名带版本号与空格</div>
+              <button class="expbtn">导出 3 份档案</button>
+            </div>
+          </div>
+        </main>
+      </div>
+      <figcaption>档案与导出：版本 diff 可回溯，一键映射到不同 agent 的配置格式</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="block">
+  <div class="block-head"><h2>04 · 设计立场</h2><p>三个决定产品性格的选择</p></div>
+  <div class="decisions">
+    <div class="dec"><h4><i>01</i>适配器即插件</h4><p>agent 的日志格式一定会变、一定会多。解析器独立注册，坏一个不影响其他。</p></div>
+    <div class="dec"><h4><i>02</i>证据优先于结论</h4><p>不输出「你的品味分」。每条惯例都必须能跳回原文，由人确认后才进入档案。</p></div>
+    <div class="dec"><h4><i>03</i>档案可移植</h4><p>不属于任何 agent 生态。今天是 Qoder 的会话，明天可以导出给 Claude Code 用。</p></div>
+  </div>
+  <div class="bounds">
+    <span class="bound">不做模型训练</span>
+    <span class="bound">不调用在线模型</span>
+    <span class="bound">不上传会话</span>
+    <span class="bound">不绑定单一 agent</span>
+    <span class="bound">未经确认不改你的配置</span>
+  </div>
+</section>
+
+<div class="foot"><span>味谱 TasteProfile · 产品概念 v0.1</span><span>数据均为示意 · 真实演示使用本机会话</span></div>
+</div>
+</body></html>

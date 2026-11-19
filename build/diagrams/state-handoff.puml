@@ -1,0 +1,29 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 26
+skinparam ranksep 40
+hide circle
+[*] --> Draft : 创建交接
+Draft --> Previewed : 生成预览
+Previewed --> Written : 确认写入
+Previewed --> Archived : 放弃
+Written --> Claimed : 新会话 / 手工认领
+Claimed --> Acknowledged : 接手方确认 (P1)
+Acknowledged --> Outcome : 记录结果 (P1)
+Written --> Archived : 超过保留期
+Outcome --> Archived : 归档
+@enduml

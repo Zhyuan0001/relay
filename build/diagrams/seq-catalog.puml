@@ -1,0 +1,26 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+participant "CatalogView" as UI
+participant "CatalogService" as CS
+participant "AdapterRegistry" as AR
+participant "FileSystem" as FS
+participant "AgentRepository" as AG
+UI -> CS : scan()
+CS -> AR : knownAgents()
+AR --> CS : adapters + capabilities
+CS -> FS : probe(logRoots, config, skills)
+FS --> CS : paths + hashes
+CS -> AG : upsert(profiles)
+CS --> UI : 台账 + 兼容矩阵 + drift
+@enduml

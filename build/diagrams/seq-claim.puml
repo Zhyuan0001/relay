@@ -1,0 +1,28 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+participant "Watcher" as W
+participant "IngestService" as IS
+participant "HandoffService" as HS
+participant "HandoffRepository" as HR
+database "SQLite" as DB
+W -> IS : newSession(workspace, agent)
+IS -> HS : onSessionStarted()
+HS -> HR : findOpen(workspace, agent)
+HR --> HS : handoff?
+alt 存在未认领交接
+  HS -> HR : claim(handoffId)
+  HR -> DB : state=Claimed
+  HS --> HS : 通知 UI
+end
+@enduml

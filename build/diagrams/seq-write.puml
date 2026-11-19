@@ -1,0 +1,37 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "HandoffView" as UI
+participant "ExportService" as ES
+participant "ManagedBlockWriter" as MBW
+participant "FileSystem" as FS
+participant "AtomicFileWriter" as AFW
+participant "HandoffRepository" as HR
+Dev -> UI : 确认写入
+UI -> ES : write(handoffId, targets)
+ES -> MBW : plan(targets)
+MBW -> FS : readExisting()
+FS --> MBW : content + hashes
+MBW --> ES : diff
+ES --> UI : diff preview
+alt 受管块冲突
+  MBW --> ES : conflict
+  ES --> UI : 提示合并/覆盖/取消
+end
+UI -> ES : confirm()
+ES -> AFW : write(tmp, rename)
+AFW -> FS : atomic replace
+ES -> HR : markWritten(handoffId)
+ES --> UI : WriteResult
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NodeBorderColor #94A3B8
+skinparam nodesep 20
+skinparam ranksep 34
+node "开发者电脑" {
+  node "Electron 应用" {
+    component "主进程" as MAIN
+    component "渲染进程" as RENDER
+  }
+  database "应用数据 SQLite" as DB
+  folder "Qoder 日志目录" as QJ
+  folder "Antigravity SQLite" as AG
+  folder "工作区" as WS {
+    artifact "AGENTS.md" as A1
+    artifact "CLAUDE.md" as A2
+    artifact "HANDOFF.md" as A3
+  }
+  MAIN --> DB
+  MAIN ..> QJ : 只读
+  MAIN ..> AG : 只读
+  MAIN --> WS : 受管块
+}
+@enduml

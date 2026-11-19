@@ -1,0 +1,74 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 26
+skinparam ranksep 40
+hide circle
+top to bottom direction
+skinparam packageStyle rectangle
+package "ui（Vue3 渲染进程）" as UI {
+  [Views]
+  [Stores]
+  [IPC Client]
+}
+package "application（用例服务）" as APP {
+  [WorkspaceService]
+  [IngestService]
+  [ExtractionService]
+  [ReviewService]
+  [DossierService]
+  [HandoffService]
+  [TaskService]
+  [CatalogService]
+  [StatsService]
+  [ExportService]
+}
+package "domain（实体与不变量）" as DOM {
+  [Workspace]
+  [Session]
+  [Event]
+  [Candidate]
+  [DossierItem]
+  [Handoff]
+  [Task]
+  [AgentProfile]
+}
+package "ports（接口）" as PORT {
+  [EventStore]
+  [LogAdapter]
+  [DossierRepository]
+  [HandoffRepository]
+  [FileWriter]
+  [Redactor]
+}
+package "infrastructure（适配/存储/写入）" as INFRA {
+  [QoderJsonlAdapter]
+  [AntigravitySummaryAdapter]
+  [ClaudeFixtureAdapter]
+  [SqliteEventStore]
+  [SqliteDossierRepository]
+  [SqliteHandoffRepository]
+  [ManagedBlockWriter]
+  [AtomicFileWriter]
+  [RegexRedactor]
+  [GitIdentityProvider]
+}
+UI --> APP
+APP --> DOM
+APP --> PORT
+INFRA ..|> PORT
+INFRA --> DOM
+@enduml

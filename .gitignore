@@ -1,0 +1,11 @@
+code/node_modules/
+code/release/
+code/dist/
+code/.relay/
+code/desktop/server.mjs
+**/__pycache__/
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+*.log

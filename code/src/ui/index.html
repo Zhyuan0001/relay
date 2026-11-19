@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>接力 Relay · 跨 Agent 记忆与交接</title>
+    <link rel="stylesheet" href="/styles.css?v=20261126" />
+  </head>
+  <body>
+    <div id="app">
+      <aside class="sidebar">
+        <div class="brand">接<span>力</span><small>RELAY</small></div>
+        <label class="label" for="workspace-select">工作区</label>
+        <select id="workspace-select"></select>
+        <nav class="nav">
+          <button data-view="overview" class="active">概览</button>
+          <button data-view="inbox">收件箱 <span id="inbox-count" class="count"></span></button>
+          <button data-view="timeline">会话库</button>
+          <button data-view="dossier">档案</button>
+          <button data-view="handoff">任务与交接</button>
+          <button data-view="agents">Agent 台账</button>
+        </nav>
+        <div class="sidebar-foot">本地模式<br />数据不出机器</div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="topbar-title">
+            <h1 id="view-title">概览</h1>
+            <p id="view-sub" class="sub">跨 agent 的会话、档案与交接</p>
+          </div>
+          <div class="topbar-tools">
+            <input id="global-search" class="global-search" type="search" placeholder="搜索会话、候选、档案、任务（Enter）" aria-label="全局搜索" />
+            <div class="actions">
+              <button id="theme-btn" class="btn" title="切换亮色/深色">深色</button>
+              <button id="demo-btn" class="btn primary">加载演示数据</button>
+              <button id="refresh-btn" class="btn">刷新</button>
+            </div>
+          </div>
+        </header>
+
+        <div id="toast" class="toast hidden"></div>
+        <div id="search-results" class="search-results hidden"></div>
+
+        <section id="view-overview" class="view"></section>
+        <section id="view-inbox" class="view hidden"></section>
+        <section id="view-timeline" class="view hidden"></section>
+        <section id="view-dossier" class="view hidden"></section>
+        <section id="view-handoff" class="view hidden"></section>
+        <section id="view-agents" class="view hidden"></section>
+      </main>
+    </div>
+    <div id="drawer" class="drawer hidden"></div>
+    <script type="module" src="/app.js?v=20261126"></script>
+  </body>
+</html>

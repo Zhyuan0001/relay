@@ -1,0 +1,61 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam nodesep 18
+skinparam ranksep 30
+hide circle
+package "infrastructure" {
+  package "adapters" {
+    class LogAdapterRegistry {
+      +discover()
+      +parse()
+    }
+  }
+  package "storage" {
+    class SqliteStore {
+      +append()
+      +query()
+      +save()
+    }
+  }
+  package "writers" {
+    class ManagedBlockWriter {
+      +plan()
+      +apply()
+    }
+    class AtomicFileWriter {
+      +write(tmp, rename)
+    }
+  }
+  package "support" {
+    class RegexRedactor {
+      +sanitize()
+    }
+    class FileWatcher {
+      +watch()
+    }
+    class GitIdentityProvider {
+      +identify()
+    }
+  }
+}
+interface LogAdapter
+interface EventStore
+interface FileWriter
+interface Redactor
+LogAdapterRegistry ..|> LogAdapter
+SqliteStore ..|> EventStore
+ManagedBlockWriter ..|> FileWriter
+AtomicFileWriter --> ManagedBlockWriter
+RegexRedactor ..|> Redactor
+FileWatcher --> LogAdapter
+@enduml

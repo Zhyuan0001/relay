@@ -1,0 +1,41 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ActorBorderColor #1F3864
+skinparam ActorBackgroundColor #EAF1FB
+skinparam UsecaseBorderColor #2E75B6
+skinparam UsecaseBackgroundColor #EAF1FB
+skinparam UsecaseFontColor #1F2937
+skinparam PackageBorderColor #94A3B8
+skinparam RectangleBorderColor #94A3B8
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam nodesep 22
+skinparam ranksep 38
+top to bottom direction
+actor "开发者" as Dev
+rectangle "本地机器" {
+  component "接力 Relay 工作台" as Relay
+  database "Qoder 会话 JSONL（只读）" as QJ
+  database "Antigravity 摘要 SQLite" as AG
+  database "Claude Code 夹具 JSONL" as CC
+  database "git 元数据（remote / branch）" as GIT
+  database "应用数据 SQLite" as DB
+  folder "工作区\nAGENTS.md / CLAUDE.md / HANDOFF.md" as WS
+  component "目标 agent\n(Antigravity / Claude Code / Codex)" as Agent
+}
+Dev --> Relay : 操作
+Relay ..> QJ : 读取
+Relay ..> AG : 读取
+Relay ..> CC : 读取
+Relay ..> GIT : 读取
+Relay --> DB : 事件 / 档案
+Relay --> WS : 受管块写入
+Agent ..> WS : 读取
+@enduml

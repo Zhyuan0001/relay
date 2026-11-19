@@ -1,0 +1,78 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam nodesep 26
+skinparam ranksep 40
+hide circle
+package "ui" {
+  class AppShell {
+    +switchWorkspace()
+  }
+  class TaskBoardView {
+    +createTask()
+    +dispatch()
+  }
+  class HandoffView {
+    +compose()
+    +preview()
+    +confirmWrite()
+  }
+  class OverviewView {
+    +metrics()
+    +trend()
+  }
+  class SessionView {
+    +timeline()
+    +evidence()
+  }
+  class ReviewView {
+    +accept()
+    +edit()
+    +ignore()
+  }
+  class DossierView {
+    +versions()
+    +diff()
+    +export()
+  }
+  class CatalogView {
+    +agents()
+    +capabilities()
+    +assets()
+  }
+  class Stores {
+    +workspace
+    +inbox
+    +dossier
+    +handoff
+    +catalog
+  }
+  class IpcClient {
+    +invoke(channel, payload)
+  }
+}
+AppShell --> TaskBoardView
+AppShell --> HandoffView
+AppShell --> OverviewView
+AppShell --> SessionView
+AppShell --> ReviewView
+AppShell --> DossierView
+AppShell --> CatalogView
+TaskBoardView --> Stores
+HandoffView --> Stores
+OverviewView --> Stores
+SessionView --> Stores
+ReviewView --> Stores
+DossierView --> Stores
+CatalogView --> Stores
+Stores --> IpcClient
+@enduml

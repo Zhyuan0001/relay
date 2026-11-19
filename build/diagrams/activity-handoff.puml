@@ -1,0 +1,43 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ActorBorderColor #1F3864
+skinparam ActorBackgroundColor #EAF1FB
+skinparam UsecaseBorderColor #2E75B6
+skinparam UsecaseBackgroundColor #EAF1FB
+skinparam UsecaseFontColor #1F2937
+skinparam PackageBorderColor #94A3B8
+skinparam RectangleBorderColor #94A3B8
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 24
+skinparam ranksep 42
+start
+:选择工作区;
+:选择任务;
+:选择目标 agent（台账 / 兼容矩阵）;
+:组装上下文包（规则 + 任务 + 失败 + 环境）;
+:预览并编辑简报;
+if (用户确认?) then (是)
+  :检查受管块冲突;
+  if (存在冲突?) then (是)
+    :提示合并 / 覆盖 / 取消;
+  else (否)
+  endif
+  :原子写入 AGENTS.md / CLAUDE.md / HANDOFF.md;
+  :可选复制简报;
+  :记录交接（Written）;
+  :新会话或手工认领（Claimed）;
+else (否)
+  :保存草稿;
+endif
+stop
+@enduml

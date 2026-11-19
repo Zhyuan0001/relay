@@ -1,0 +1,24 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+participant "OverviewView" as UI
+participant "StatsService" as SS
+participant "EventStore" as ES
+database "SQLite" as DB
+UI -> SS : query(filters)
+SS -> ES : aggregate(filters)
+ES -> DB : SQL
+DB --> ES : rows
+ES --> SS : metrics
+SS --> UI : KPI/趋势/分布
+@enduml

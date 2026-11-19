@@ -1,0 +1,34 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "HandoffView" as UI
+participant "HandoffService" as HS
+participant "TaskService" as TS
+participant "DossierService" as DS
+participant "CatalogService" as CS
+participant "BriefBuilder" as BB
+participant "HandoffRepository" as HR
+Dev -> UI : 选择任务与目标 agent
+UI -> HS : compose(taskId, agentId)
+HS -> TS : load(taskId)
+TS --> HS : task
+HS -> DS : acceptedItems(workspaceId)
+DS --> HS : rules
+HS -> CS : capabilities(agentId)
+CS --> HS : capabilitySet
+HS -> BB : build(fields, budget=1500)
+BB --> HS : brief
+HS -> HR : save(Draft)
+HS --> UI : preview
+@enduml

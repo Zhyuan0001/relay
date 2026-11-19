@@ -1,0 +1,14 @@
+{
+  "sessionId": "g1",
+  "startTime": "2026-11-18T09:00:00.000Z",
+  "workspace": "/tmp/demo",
+  "messages": [
+    { "type": "user", "content": "整理一下需求。", "timestamp": "2026-11-18T09:00:05.000Z" },
+    {
+      "type": "gemini",
+      "content": "我先读文件。",
+      "timestamp": "2026-11-18T09:00:10.000Z",
+      "toolCalls": [{ "name": "read_file", "args": { "path": "docs/requirements.md" }, "result": "ok" }]
+    }
+  ]
+}

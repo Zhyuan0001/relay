@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "ReviewView" as UI
+participant "ReviewService" as RS
+participant "CandidateRepository" as CR
+participant "DossierService" as DS
+participant "DossierRepository" as DR
+participant "AuditLog" as AL
+Dev -> UI : 选择候选
+UI -> RS : accept(candidateId, editedText)
+RS -> CR : load(candidateId)
+CR --> RS : candidate
+RS -> DS : apply(change)
+DS -> DR : createVersion(item, content)
+DR --> DS : versionId
+DS --> RS : version
+RS -> AL : record(action)
+RS --> UI : DossierVersion
+@enduml

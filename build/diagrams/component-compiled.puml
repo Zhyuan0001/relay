@@ -1,0 +1,28 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NodeBorderColor #94A3B8
+skinparam nodesep 20
+skinparam ranksep 34
+component "Relay 应用" as APP
+component "app.asar" as ASAR
+component "Vue 渲染包" as VUE
+component "主进程 JS" as MAIN
+component "better-sqlite3\n原生模块" as SQLNODE
+database "应用数据 SQLite" as DB
+folder "工作区文件" as WS
+APP --> ASAR
+ASAR --> VUE
+ASAR --> MAIN
+ASAR --> SQLNODE
+MAIN --> DB
+MAIN --> WS
+@enduml

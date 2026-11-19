@@ -1,0 +1,9 @@
+{"type":"session","sessionId":"q1","directories":["/tmp/relay-demo"],"model":"test-model","timestamp":"2026-11-18T10:00:00.000Z"}
+{"type":"user","sessionId":"q1","uuid":"q1-u1","origin":{"kind":"human"},"humanInput":{"text":"帮我修复打包脚本。以后都用 pnpm，不要 npm。"},"promptId":"p1","timestamp":"2026-11-18T10:00:05.000Z","message":{"role":"user","content":[{"type":"text","text":"帮我修复打包脚本。以后都用 pnpm，不要 npm。"}]}}
+{"type":"assistant","sessionId":"q1","uuid":"q1-a1","timestamp":"2026-11-18T10:00:10.000Z","message":{"role":"assistant","content":[{"type":"text","text":"我先查看脚本，再跑构建。"},{"type":"tool_use","name":"Bash","input":{"command":"pnpm run build"}}]}}
+{"type":"user","sessionId":"q1","uuid":"q1-u2","timestamp":"2026-11-18T10:00:20.000Z","message":{"role":"user","content":[{"type":"tool_result","is_error":false,"content":[{"type":"text","text":"build ok"}]}]}}
+{"type":"assistant","sessionId":"q1","uuid":"q1-a2","timestamp":"2026-11-18T10:00:30.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Edit","input":{"file_path":"/tmp/relay-demo/scripts/build.ts","old_string":"a","new_string":"b"}}]}}
+{"type":"assistant","sessionId":"q1","uuid":"q1-a3","timestamp":"2026-11-18T10:00:40.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Bash","input":{"command":"node --version"}}]}}
+{"type":"user","sessionId":"q1","uuid":"q1-u3","timestamp":"2026-11-18T10:00:45.000Z","message":{"role":"user","content":[{"type":"tool_result","is_error":false,"content":[{"type":"text","text":"v24.15.0"}]}]}}
+{"type":"user","sessionId":"q1","uuid":"q1-u4","origin":{"kind":"human"},"humanInput":{"text":"版本号保持 3.1.0，只改产物名。"},"promptId":"p2","timestamp":"2026-11-18T10:01:00.000Z","message":{"role":"user","content":[{"type":"text","text":"版本号保持 3.1.0，只改产物名。"}]}}
+{"type":"assistant","sessionId":"q1","uuid":"q1-a4","timestamp":"2026-11-18T10:01:10.000Z","message":{"role":"assistant","content":[{"type":"text","text":"已修改产物名，版本号未变。"}]}}

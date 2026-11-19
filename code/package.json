@@ -1,0 +1,111 @@
+{
+  "name": "relay",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "接力 Relay — 跨 Agent 的本地记忆与交接工作台",
+  "author": "Zhyuan0001",
+  "homepage": "https://github.com/Zhyuan0001/relay",
+  "main": "desktop/main.cjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.ts",
+    "cli": "node src/cli.ts",
+    "demo": "node src/cli.ts demo",
+    "serve": "node src/serve.ts",
+    "build:server": "esbuild src/server.ts --bundle --platform=node --format=esm --target=node24 --outfile=desktop/server.mjs --external:node:* --legal-comments=none",
+    "desktop": "npm run build:server && electron desktop/main.cjs",
+    "pack:dir": "npm run build:server && electron-builder --dir",
+    "dist:win": "npm run build:server && electron-builder --win portable --x64",
+    "dist:linux": "npm run build:server && electron-builder --linux AppImage tar.gz --x64",
+    "dist:mac": "npm run build:server && electron-builder --mac zip --x64 --arm64"
+  },
+  "devDependencies": {
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.25.0"
+  },
+  "build": {
+    "appId": "com.zhyuan.relay",
+    "productName": "Relay",
+    "copyright": "Copyright © 2026 Zhyuan0001",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "desktop/main.cjs",
+      "src/ui/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "desktop/server.mjs",
+        "to": "server.mjs"
+      },
+      {
+        "from": "fixtures",
+        "to": "fixtures",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "asar": true,
+    "compression": "maximum",
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "Relay-${version}-windows-portable-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "Relay-${version}-windows-portable-${arch}.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "category": "Development",
+      "artifactName": "Relay-${version}-linux-${arch}.${ext}",
+      "syncDesktopName": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "category": "public.app-category.developer-tools",
+      "identity": null,
+      "artifactName": "Relay-${version}-mac-${arch}.${ext}"
+    }
+  },
+  "desktopName": "relay.desktop"
+}

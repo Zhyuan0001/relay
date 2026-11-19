@@ -1,0 +1,28 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NodeBorderColor #94A3B8
+skinparam nodesep 20
+skinparam ranksep 34
+package "主进程" {
+  component "UI 事件循环" as LOOP
+  component "Watcher" as WATCH
+  component "解析 Worker 池" as POOL
+  component "DB 单写者线程" as DBW
+}
+package "渲染进程" {
+  component "Vue 渲染" as VUE
+}
+VUE <..> LOOP : IPC
+WATCH --> POOL
+POOL --> DBW
+LOOP --> DBW
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "SessionView" as UI
+participant "IngestService" as IS
+participant "AdapterRegistry" as AR
+participant "LogAdapter" as AD
+participant "Redactor" as RD
+participant "EventStore" as ES
+database "SQLite" as DB
+Dev -> UI : 刷新工作区
+UI -> IS : refresh(workspaceId)
+IS -> AR : discover(workspace)
+AR --> IS : sources[]
+loop 每个来源
+  IS -> AD : parse(source, cursor)
+  AD --> IS : rawEvents + nextCursor
+  IS -> RD : sanitize(rawEvents)
+  RD --> IS : redactedEvents
+  IS -> ES : append(redactedEvents)
+  ES -> DB : 事务写入 + 索引
+end
+IS --> UI : ImportResult(新增/跳过/坏行)
+@enduml

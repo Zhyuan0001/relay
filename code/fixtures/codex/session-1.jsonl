@@ -1,0 +1,5 @@
+{"timestamp":"2026-11-18T10:00:00.000Z","type":"session_meta","payload":{"id":"cx1","cwd":"/tmp/demo"}}
+{"timestamp":"2026-11-18T10:00:05.000Z","type":"response_item","payload":{"type":"message","role":"user","content":[{"type":"input_text","text":"用 Electron，不用 Tauri。"}]}}
+{"timestamp":"2026-11-18T10:00:10.000Z","type":"response_item","payload":{"type":"message","role":"assistant","content":[{"type":"output_text","text":"明白，采用 Electron。"}]}}
+{"timestamp":"2026-11-18T10:00:15.000Z","type":"response_item","payload":{"type":"function_call","name":"shell","arguments":"{\"command\":\"pnpm test\"}"}}
+{"timestamp":"2026-11-18T10:00:20.000Z","type":"response_item","payload":{"type":"function_call_output","output":"tests passed"}}

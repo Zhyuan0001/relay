@@ -1,0 +1,29 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "ReviewView" as UI
+participant "ExtractionService" as EX
+participant "EventStore" as ES
+participant "RuleEngine" as RE
+participant "CandidateRepository" as CR
+Dev -> UI : 打开收件箱
+UI -> EX : extract(workspaceId)
+EX -> ES : recentEvents()
+ES --> EX : events
+EX -> RE : evaluate(events)
+RE --> EX : candidates(证据/置信度)
+EX -> CR : save(candidates)
+CR --> EX : saved
+EX --> UI : 候选列表
+@enduml

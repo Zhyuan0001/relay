@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceArrowColor #475569
+skinparam sequenceActorBorderColor #1F3864
+skinparam sequenceParticipantBorderColor #2E75B6
+skinparam sequenceParticipantBackgroundColor #F8FAFC
+skinparam sequenceLifeLineBorderColor #CBD5E1
+skinparam sequenceGroupBorderColor #94A3B8
+skinparam noteBackgroundColor #FFF7E6
+skinparam noteBorderColor #D6B656
+autonumber
+actor "开发者" as Dev
+participant "TaskBoardView" as UI
+participant "TaskService" as TS
+participant "CatalogService" as CS
+participant "HandoffService" as HS
+participant "ExportService" as ES
+participant "HandoffRepository" as HR
+Dev -> UI : 选择工作区与任务
+UI -> TS : create/select task
+TS --> UI : task
+UI -> CS : listAgents()
+CS --> UI : profiles + capabilities
+UI -> HS : dispatch(taskId, agentId, mode)
+HS -> ES : writeOrCopy()
+ES --> HS : result
+HS -> HR : record Claim
+HS --> UI : dispatchRecord + launchCommand
+@enduml

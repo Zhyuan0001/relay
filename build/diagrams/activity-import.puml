@@ -1,0 +1,40 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ActorBorderColor #1F3864
+skinparam ActorBackgroundColor #EAF1FB
+skinparam UsecaseBorderColor #2E75B6
+skinparam UsecaseBackgroundColor #EAF1FB
+skinparam UsecaseFontColor #1F2937
+skinparam PackageBorderColor #94A3B8
+skinparam RectangleBorderColor #94A3B8
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 24
+skinparam ranksep 42
+start
+:发现日志源（适配器注册表）;
+:识别 schema 指纹;
+if (格式可识别?) then (是)
+  :按游标增量解析;
+  if (存在损坏行?) then (是)
+    :跳过并记录坏行;
+  else (否)
+  endif
+  :入库前脱敏;
+  :统一事件模型 + 去重;
+  :写入事件库;
+  :更新会话索引与时间线;
+else (否)
+  :标记未知来源并提示;
+endif
+stop
+@enduml

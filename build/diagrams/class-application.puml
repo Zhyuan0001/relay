@@ -1,0 +1,91 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam nodesep 18
+skinparam ranksep 30
+hide circle
+package "application" {
+  package "capture" {
+    class IngestService {
+      +refresh()
+      +importBatch()
+    }
+    class ExtractionService {
+      +extract()
+    }
+  }
+  package "curation" {
+    class ReviewService {
+      +accept()
+      +merge()
+      +ignore()
+    }
+    class DossierService {
+      +version()
+      +diff()
+      +rollback()
+    }
+  }
+  package "handoff" {
+    class TaskService {
+      +create()
+      +linkSession()
+      +dispatch()
+    }
+    class HandoffService {
+      +compose()
+      +write()
+      +claim()
+    }
+    class ExportService {
+      +writeFiles()
+      +copyBrief()
+      +exportJson()
+    }
+  }
+  package "support" {
+    class CatalogService {
+      +scan()
+      +capabilities()
+    }
+    class SearchService {
+      +query()
+    }
+    class StatsService {
+      +query()
+    }
+  }
+}
+package "ports" {
+  interface EventStore
+  interface LogAdapter
+  interface DossierRepository
+  interface HandoffRepository
+  interface TaskRepository
+  interface FileWriter
+  interface Redactor
+}
+IngestService --> EventStore
+IngestService --> LogAdapter
+IngestService --> Redactor
+ExtractionService --> EventStore
+ReviewService --> DossierService
+DossierService --> DossierRepository
+HandoffService --> DossierService
+HandoffService --> HandoffRepository
+HandoffService --> CatalogService
+ExportService --> FileWriter
+HandoffService --> TaskService
+TaskService --> TaskRepository
+SearchService --> EventStore
+StatsService --> EventStore
+@enduml

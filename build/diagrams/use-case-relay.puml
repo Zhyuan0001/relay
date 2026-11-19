@@ -1,0 +1,49 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ActorBorderColor #1F3864
+skinparam ActorBackgroundColor #EAF1FB
+skinparam UsecaseBorderColor #2E75B6
+skinparam UsecaseBackgroundColor #EAF1FB
+skinparam UsecaseFontColor #1F2937
+skinparam PackageBorderColor #94A3B8
+skinparam RectangleBorderColor #94A3B8
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam nodesep 22
+skinparam ranksep 38
+left to right direction
+skinparam packageStyle rectangle
+actor "开发者" as Dev
+actor "目标 agent" as Agent
+actor "文件系统 / git" as FS
+rectangle "接力 Relay v1.0" {
+  package "接入" {
+    usecase "UC-02 导入与刷新会话" as UC02
+  }
+  package "经验与档案" {
+    usecase "UC-05 审核候选" as UC05
+    usecase "UC-06 管理档案版本" as UC06
+  }
+  package "交接与派工" {
+    usecase "UC-07 生成交接简报" as UC07
+    usecase "UC-08 写入与注入" as UC08
+    usecase "UC-14 创建任务并派工" as UC14
+  }
+}
+Dev --> UC02
+Dev --> UC05
+Dev --> UC06
+Dev --> UC07
+Dev --> UC14
+Dev --> UC08
+Agent --> UC08
+FS --> UC02
+FS --> UC08
+@enduml

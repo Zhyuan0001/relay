@@ -1,0 +1,10 @@
+{"type":"session","sessionId":"q2","directories":["/tmp/relay-demo"],"model":"test-model","timestamp":"2026-11-18T11:00:00.000Z"}
+{"type":"user","sessionId":"q2","uuid":"q2-u1","origin":{"kind":"human"},"humanInput":{"text":"记住：以后统一用 pnpm，不要 npm。"},"promptId":"p3","timestamp":"2026-11-18T11:00:05.000Z","message":{"role":"user","content":[{"type":"text","text":"记住：以后统一用 pnpm，不要 npm。"}]}}
+{"type":"assistant","sessionId":"q2","uuid":"q2-a1","timestamp":"2026-11-18T11:00:10.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Bash","input":{"command":"npm install"}}]}}
+{"type":"user","sessionId":"q2","uuid":"q2-u2","timestamp":"2026-11-18T11:00:15.000Z","message":{"role":"user","content":[{"type":"tool_result","is_error":false,"content":[{"type":"text","text":"added 1 package"}]}]}}
+{"type":"assistant","sessionId":"q2","uuid":"q2-a2","timestamp":"2026-11-18T11:00:20.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Edit","input":{"file_path":"/tmp/relay-demo/docs/README.md"}}]}}
+{"type":"assistant","sessionId":"q2","uuid":"q2-a3","timestamp":"2026-11-18T11:00:25.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Edit","input":{"file_path":"/tmp/relay-demo/docs/HANDOFF.md"}}]}}
+{"type":"user","sessionId":"q2","uuid":"q2-u3","origin":{"kind":"human"},"humanInput":{"text":"文档里的说明也更新一下。"},"promptId":"p4","timestamp":"2026-11-18T11:00:30.000Z","message":{"role":"user","content":[{"type":"text","text":"文档里的说明也更新一下。"}]}}
+not-a-json-line
+{"type":"assistant","sessionId":"q2","uuid":"q2-a4","timestamp":"2026-11-18T11:00:40.000Z","message":{"role":"assistant","content":[{"type":"tool_use","name":"Bash","input":{"command":"pnpm run lint"}}]}}
+{"type":"user","sessionId":"q2","uuid":"q2-u4","timestamp":"2026-11-18T11:00:45.000Z","message":{"role":"user","content":[{"type":"tool_result","is_error":true,"content":[{"type":"text","text":"lint failed: no-unused-vars"}]}]}}

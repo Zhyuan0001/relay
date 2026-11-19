@@ -1,0 +1,143 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 26
+skinparam ranksep 40
+hide circle
+package "domain" {
+  class Workspace {
+    +id: WorkspaceId
+    +rootPath: string
+    +gitRemote: string
+    +name: string
+    +lastScanAt: Instant
+  }
+  class AgentProfile {
+    +id: AgentId
+    +kind: AgentKind
+    +installed: boolean
+    +logRoots: string[]
+    +capabilities: CapabilitySet
+    +lastSeenAt: Instant
+  }
+  class Session {
+    +id: SessionId
+    +workspaceId: WorkspaceId
+    +agentId: AgentId
+    +startedAt: Instant
+    +endedAt: Instant?
+    +sourceRef: SourceRef
+  }
+  class Event {
+    +id: EventId
+    +sessionId: SessionId
+    +type: EventType
+    +occurredAt: Instant
+    +provenance: Provenance
+    +payloadRef: string
+  }
+  class Evidence {
+    +id: EvidenceId
+    +eventId: EventId
+    +fileRef: string
+    +lineNo: int
+    +excerpt: string
+  }
+  class Candidate {
+    +id: CandidateId
+    +category: Category
+    +statement: string
+    +confidence: float
+    +status: CandidateStatus
+    +scope: Scope
+  }
+  class DossierItem {
+    +id: ItemId
+    +category: Category
+    +statement: string
+    +scope: Scope
+    +status: ItemStatus
+  }
+  class DossierVersion {
+    +id: VersionId
+    +itemId: ItemId
+    +versionNo: int
+    +content: string
+    +diffSummary: string
+    +createdAt: Instant
+  }
+  class Task {
+    +id: TaskId
+    +workspaceId: WorkspaceId
+    +title: string
+    +goal: string
+    +status: TaskStatus
+    +ownerAgentId: AgentId?
+    +nextStep: string
+    +acceptance: string
+  }
+  class Handoff {
+    +id: HandoffId
+    +taskId: TaskId
+    +targetAgentId: AgentId
+    +state: HandoffState
+    +briefRef: string
+    +writtenAt: Instant?
+    +claimedAt: Instant?
+  }
+  class Asset {
+    +id: AssetId
+    +agentId: AgentId
+    +kind: AssetKind
+    +path: string
+    +version: string
+    +hash: string
+    +lastModified: Instant
+  }
+  enum EventType {
+    PROMPT
+    TOOL_CALL
+    TOOL_RESULT
+    EDIT
+    CORRECTION
+    FACT
+    DECISION
+    TASK_STATE
+    UNKNOWN
+  }
+  enum HandoffState {
+    Draft
+    Previewed
+    Written
+    Claimed
+    Acknowledged
+    Outcome
+    Archived
+  }
+}
+Workspace "1" -- "*" Session
+Workspace "1" -- "*" Task
+Workspace "1" -- "*" DossierItem
+AgentProfile "1" -- "*" Session
+AgentProfile "1" -- "*" Asset
+Session "1" -- "*" Event
+Event "1" -- "*" Evidence
+Candidate "*" -- "*" Evidence
+Candidate --> DossierItem : 接受后生成
+DossierItem "1" -- "*" DossierVersion
+Task "1" -- "*" Handoff
+Handoff --> AgentProfile : 目标
+@enduml

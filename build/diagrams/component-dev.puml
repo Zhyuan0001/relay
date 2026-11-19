@@ -1,0 +1,63 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam DatabaseBorderColor #2E75B6
+skinparam DatabaseBackgroundColor #F1F5F9
+skinparam FolderBorderColor #94A3B8
+skinparam NodeBorderColor #94A3B8
+skinparam nodesep 20
+skinparam ranksep 34
+package "Electron 主进程" {
+  component "IPC Router" as IPC
+  component "IngestService" as ING
+  component "ExtractionService" as EXT
+  component "TaskService" as TASK
+  component "HandoffService" as HOF
+  component "ExportService" as EXP
+  component "CatalogService" as CAT
+  component "SearchService" as SEARCH
+  component "StatsService" as STA
+  component "SQLite Store" as STORE
+  component "Managed Block Writer" as MBW
+  component "Watcher" as WATCH
+}
+package "渲染进程（Vue3）" {
+  component "Views" as VIEWS
+  component "Stores" as STORES
+  component "IPC Client" as IPCC
+}
+package "本地资源" {
+  database "SQLite" as DB
+  folder "Agent 日志" as LOGS
+  folder "工作区文件" as WS
+}
+VIEWS --> STORES
+STORES --> IPCC
+IPCC ..> IPC : IPC
+IPC --> ING
+IPC --> EXT
+IPC --> TASK
+IPC --> HOF
+IPC --> CAT
+IPC --> SEARCH
+IPC --> STA
+ING --> STORE
+ING ..> LOGS : 只读
+EXT --> STORE
+TASK --> STORE
+HOF --> TASK
+HOF --> STORE
+HOF --> MBW
+EXP --> MBW
+CAT --> STORE
+SEARCH --> STORE
+STA --> STORE
+WATCH --> ING
+STORE --> DB
+MBW --> WS
+@enduml

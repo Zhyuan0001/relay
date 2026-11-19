@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName "Noto Sans CJK SC"
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam classBorderColor #2E75B6
+skinparam classBackgroundColor #F8FAFC
+skinparam classArrowColor #475569
+skinparam classAttributeIconSize 0
+skinparam packageBorderColor #94A3B8
+skinparam packageBackgroundColor #FFFFFF
+skinparam ComponentBorderColor #2E75B6
+skinparam ComponentBackgroundColor #F8FAFC
+skinparam NoteBackgroundColor #FFF7E6
+skinparam NoteBorderColor #D6B656
+skinparam nodesep 26
+skinparam ranksep 40
+hide circle
+start
+:读取工作区最近事件;
+:规则族评估（纠偏 / 习惯 / 环境 / 任务）;
+:生成候选（陈述 + 证据 + 置信度）;
+:语义去重与冲突检测;
+if (存在冲突?) then (是)
+  :标记冲突候选;
+else (否)
+endif
+:写入候选库（待审核）;
+stop
+@enduml
