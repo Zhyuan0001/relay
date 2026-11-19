@@ -13,7 +13,7 @@ meta = {
     "author": "宋致远",
     "student_id": "524031910665",
     "date": "2026-11-20",
-    "repo": "（提交前填写）",
+    "repo": "https://github.com/Zhyuan0001/relay",
     "course": "软件工程课程 · 期末项目",
     "course_name": "软件工程",
 }
